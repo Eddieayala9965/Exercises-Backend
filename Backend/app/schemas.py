@@ -8,6 +8,9 @@ class TaskBase(BaseModel):
 class TaskCreate(TaskBase):
     pass
 
+class TaskDelete(TaskBase):
+    pass
+
 class Task(TaskBase):
     id: int
     
