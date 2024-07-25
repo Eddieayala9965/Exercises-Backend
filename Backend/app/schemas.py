@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import List, Optional
 
 class TaskBase(BaseModel):
     name: str
@@ -7,6 +8,11 @@ class TaskBase(BaseModel):
 
 class TaskCreate(TaskBase):
     pass
+
+class TaskUpdate(BaseModel):
+    name: Optional[str] = None
+    date: Optional[datetime] = None
+    
 
 class TaskDelete(TaskBase):
     pass

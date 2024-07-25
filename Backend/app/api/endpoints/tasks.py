@@ -15,5 +15,10 @@ def read_task(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     tasks = crud.get_tasks(db, skip=skip, limit=limit)
     return tasks
 
-@router.delete("/tasks/")
+@router.delete("/tasks/{task_id}", response_model=schemas.Task)
+def delete_task(task_id: int, db: Session = Depends(get_db)):
+    return crud.delete_task(db=db, task_id=task_id)
 
+@router.put("/tasks/{task_id}", response_model=schemas.Task)
+def update_task(task_id: int, task: schemas.TaskUpdate, db: Session = Depends(get_db)):
+    return crud.update_task(db=db, task_id=task_id, task=task)
