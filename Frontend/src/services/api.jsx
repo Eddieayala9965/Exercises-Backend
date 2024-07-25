@@ -5,14 +5,18 @@ const api = axios.create({
 });
 
 export const getTasks = () => {
-  const getTask = api.get("/get_tasks/");
-  return getTask;
+  return api.get("/get_tasks/");
 };
 
 export const createTasks = (task) => {
-  const createTasks = api.post("/create_tasks", task);
-  return createTasks;
+  return api.post("/create_tasks", task);
 };
-export const deleteTask = () => {};
+export const deleteTask = (taskId) => {
+  return api.delete(`/delete_tasks/${taskId}`);
+};
+
+export const updateTask = (taskId) => {
+  return api.put(`/update_tasks/${taskId}`);
+};
 
 export default api;
