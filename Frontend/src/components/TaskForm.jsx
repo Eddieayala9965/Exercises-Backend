@@ -2,19 +2,19 @@ import { useState } from "react";
 import { createTask } from "../services/api";
 
 const TaskForm = () => {
-  const [task, setTask] = useState("");
+  const [name, setName] = useState("");
   const [date, setDate] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newTask = {
-      task,
+      name,
       date,
     };
 
     try {
       await createTask(newTask);
-      setTask("");
+      setName("");
       setDate("");
     } catch (error) {
       console.error("Error creating task: ", error);
@@ -26,9 +26,9 @@ const TaskForm = () => {
         <label>Task</label>
         <input
           type="text"
-          name="task"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
+          name="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
       <div>

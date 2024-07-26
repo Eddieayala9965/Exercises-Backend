@@ -8,8 +8,8 @@ export const getTasks = () => {
   return api.get("/get_tasks/");
 };
 
-export const createTasks = (task) => {
-  return api.post("/create_tasks", task);
+export const createTask = (task) => {
+  return api.post("/create_tasks/", task);
 };
 export const deleteTask = (taskId) => {
   return api.delete(`/delete_tasks/${taskId}`);
