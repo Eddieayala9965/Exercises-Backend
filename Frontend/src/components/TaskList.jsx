@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Link } from "react-router-dom";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -81,36 +82,52 @@ const TaskList = () => {
   };
 
   return (
-    <Container>
+    <Container sx={{ marginTop: 7 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Tasks
       </Typography>
-      <List>
-        {tasks.map((task) => (
-          <ListItem key={task.id} divider>
-            <ListItemText
-              primary={task.name}
-              secondary={new Date(task.date).toLocaleDateString()}
-            />
-            <ListItemSecondaryAction>
-              <IconButton
-                edge="end"
-                aria-label="edit"
-                onClick={() => handleClickOpen(task)}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => handleDelete(task.id)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
+      {tasks.length === 0 ? (
+        <Box textAlign="center" mt={5}>
+          <Typography variant="h6" component="p">
+            No Tasks Available, Create Task
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            to="/create_task"
+          >
+            Create Task
+          </Button>
+        </Box>
+      ) : (
+        <List>
+          {tasks.map((task) => (
+            <ListItem key={task.id} divider>
+              <ListItemText
+                primary={task.name}
+                secondary={new Date(task.date).toLocaleDateString()}
+              />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  aria-label="edit"
+                  onClick={() => handleClickOpen(task)}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => handleDelete(task.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+        </List>
+      )}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Update Task</DialogTitle>
         <DialogContent>
