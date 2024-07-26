@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTasks, updateTask } from "../services/api";
+import { getTasks, updateTask, deleteTask } from "../services/api";
 import {
   List,
   ListItem,
@@ -17,6 +17,7 @@ import {
   Box,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -69,17 +70,27 @@ const TaskList = () => {
       console.error("Error updating task: ", error);
     }
   };
+
+  const handleDelete = async (taskId) => {
+    try {
+      await deleteTask(taskId);
+      setTasks(tasks.filter((task) => task.id !== taskId));
+    } catch (error) {
+      console.error("Error deleting task: ", error);
+    }
+  };
+
   return (
-    <Container sx={{ marginTop: 7 }}>
+    <Container>
       <Typography variant="h4" component="h1" gutterBottom>
         Tasks
       </Typography>
       <List>
         {tasks.map((task) => (
-          <ListItem key={task.id}>
+          <ListItem key={task.id} divider>
             <ListItemText
               primary={task.name}
-              secondary={new Date(task.date).toLocaleString()}
+              secondary={new Date(task.date).toLocaleDateString()}
             />
             <ListItemSecondaryAction>
               <IconButton
@@ -89,46 +100,54 @@ const TaskList = () => {
               >
                 <EditIcon />
               </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={() => handleDelete(task.id)}
+              >
+                <DeleteIcon />
+              </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
         ))}
       </List>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Task</DialogTitle>
+        <DialogTitle>Update Task</DialogTitle>
         <DialogContent>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Task"
-            name="name"
-            value={currentTask.name}
-            onChange={handleChange}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="date"
-            label="Date"
-            type="date"
-            name="date"
-            value={currentTask.date}
-            onChange={handleChange}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+          <form onSubmit={handleSubmit}>
+            <TextField
+              margin="dense"
+              id="name"
+              name="name"
+              label="Task Name"
+              type="text"
+              fullWidth
+              value={currentTask.name}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="dense"
+              id="date"
+              name="date"
+              label="Date"
+              type="date"
+              fullWidth
+              value={currentTask.date}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button type="submit" color="primary">
+                Update
+              </Button>
+            </DialogActions>
+          </form>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Save
-          </Button>
-        </DialogActions>
       </Dialog>
     </Container>
   );
