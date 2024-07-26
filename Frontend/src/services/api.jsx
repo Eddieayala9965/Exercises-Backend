@@ -15,8 +15,8 @@ export const deleteTask = (taskId) => {
   return api.delete(`/delete_tasks/${taskId}`);
 };
 
-export const updateTask = (taskId) => {
-  return api.put(`/update_tasks/${taskId}`);
+export const updateTask = (taskId, updatedTask) => {
+  return api.put(`/update_tasks/${taskId}`, updatedTask);
 };
 
 export default api;
