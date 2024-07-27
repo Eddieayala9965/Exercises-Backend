@@ -15,6 +15,8 @@ import {
   DialogContent,
   DialogTitle,
   Box,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -28,6 +30,9 @@ const TaskList = () => {
     name: "",
     date: "",
   });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -66,9 +71,15 @@ const TaskList = () => {
       setTasks(
         tasks.map((task) => (task.id === currentTask.id ? response.data : task))
       );
+      setSnackbarMessage("Task updated successfully!");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
       handleClose();
     } catch (error) {
       console.error("Error updating task: ", error);
+      setSnackbarMessage("Error updating task.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -76,9 +87,22 @@ const TaskList = () => {
     try {
       await deleteTask(taskId);
       setTasks(tasks.filter((task) => task.id !== taskId));
+      setSnackbarMessage("Task deleted successfully!");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     } catch (error) {
       console.error("Error deleting task: ", error);
+      setSnackbarMessage("Error deleting task.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   return (
@@ -166,7 +190,21 @@ const TaskList = () => {
           </form>
         </DialogContent>
       </Dialog>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
+
 export default TaskList;
