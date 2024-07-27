@@ -42,4 +42,4 @@ A simple task management application built with FastAPI and React. This applicat
 
 ## Video Demo
 
-[![Watch the video](https://github.com/Eddieayala9965/Task-Manager/blob/b93f9dd56efa6f200606e0377dc609904881bc0a/thumbnail.png)](https://drive.google.com/file/d/1bikhEf2miE7Iw5kJ8MwW5qEzdJJGWWZj/view?usp=sharing)
+[![Watch the video](https://github.com/Eddieayala9965/Task-Manager/blob/c74b6df99263762962acf789dbd4b5f835c632b5/thumbnail.png)](https://drive.google.com/file/d/1bikhEf2miE7Iw5kJ8MwW5qEzdJJGWWZj/view?usp=sharing)
